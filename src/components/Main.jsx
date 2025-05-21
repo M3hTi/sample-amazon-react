@@ -2,9 +2,9 @@ import { Outlet } from "react-router-dom"
 
 function Main() {
     return (
-        <main className="max-w-4xl">
+        <div className="max-w-4xl">
             <Outlet />
-        </main>
+        </div>
     )
 }
 
