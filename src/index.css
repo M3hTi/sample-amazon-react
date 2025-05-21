@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+@utility h-screen {
+  height: 100dvh;
+}
