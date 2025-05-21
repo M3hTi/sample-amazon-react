@@ -3,6 +3,7 @@ import { IoPerson } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 import Tabs from "../ui/Tabs";
+import ArtCraftNavLinks from "./ArtCraftNavLinks";
 import ElectronicNavLinks from "./ElectronicNavLinks";
 
 function Header() {
@@ -35,9 +36,19 @@ function Header() {
                   </Link>
                 </nav>
               </Tabs.Tab>
+              <Tabs.Tab tab="art-craft">
+                <nav className="px-4">
+                  <Link className="relative py-2 text-gray-900 transition-all duration-200 hover:font-bold hover:text-black">
+                    Arts &amp; crafts
+                  </Link>
+                </nav>
+              </Tabs.Tab>
 
               <Tabs.List name="electronics">
                 <ElectronicNavLinks />
+              </Tabs.List>
+              <Tabs.List name="art-craft">
+                <ArtCraftNavLinks />
               </Tabs.List>
             </Tabs>
           </div>
