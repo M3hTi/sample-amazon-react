@@ -23,14 +23,17 @@ function Header() {
             <Tabs>
               <Tabs.Tab>
                 <Tabs.Nav>
-                  <NavLink>Home</NavLink>
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) => (isActive ? "font-bold" : "")}
+                  >
+                    Home
+                  </NavLink>
                 </Tabs.Nav>
               </Tabs.Tab>
               <Tabs.Tab name="art">
                 <Tabs.Nav>
-                  <NavLink>
-                    Art &amp; Crafts
-                  </NavLink>
+                  <NavLink>Art &amp; Crafts</NavLink>
                 </Tabs.Nav>
                 <Tabs.List name="art">
                   <NavLinks to="/electronics/laptop">Crafting</NavLinks>
