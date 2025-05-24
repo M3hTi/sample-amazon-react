@@ -41,7 +41,7 @@ function List({ children, name: nameList }) {
 
   return (
     <ul
-      className="absolute top-full left-0 min-w-[200px] space-y-1 rounded-lg border border-gray-100 bg-white py-2 shadow-lg z-50"
+      className="absolute top-full left-0 z-50 min-w-[200px] space-y-1 rounded-lg border border-gray-100 bg-white px-2 py-2 shadow-lg"
       onMouseEnter={() => open(nameList)}
       onMouseLeave={close}
     >
