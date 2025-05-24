@@ -1,5 +1,4 @@
-import { cloneElement, createContext, useContext, useState } from "react";
-import { createPortal } from "react-dom";
+import { createContext, useContext, useState } from "react";
 
 const TabsContext = createContext();
 
@@ -13,31 +12,46 @@ function Tabs({ children }) {
 
   return (
     <TabsContext.Provider value={{ open, close, activeTab }}>
-      <div className="flex items-center justify-center gap-4">{children}</div>
+      <>{children}</>
     </TabsContext.Provider>
   );
 }
 
-function Tab({ children, tab: tabName }) {
+function Tab({ children, name }) {
   const { open, close } = useContext(TabsContext);
-
-  return cloneElement(children, {
-    onMouseEnter: () => open(tabName),
-    onMouseLeave: () => {
-      // Give a small delay to allow moving to the dropdown
-      setTimeout(close, 4000);
-    },
-  });
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => open(name)}
+      onMouseLeave={close}
+    >
+      {children}
+    </div>
+  );
 }
 
-function List({ children, name: listName }) {
-  const { activeTab } = useContext(TabsContext);
+function Nav({ children }) {
+  return <nav>{children}</nav>;
+}
 
-  if (activeTab !== listName) return null;
-  return createPortal(children, document.getElementById("root"));
+function List({ children, name: nameList }) {
+  const { activeTab, open, close } = useContext(TabsContext);
+
+  if (activeTab !== nameList) return null;
+
+  return (
+    <ul
+      className="absolute top-full left-0 min-w-[200px] space-y-1 rounded-lg border border-gray-100 bg-white py-2 shadow-lg z-50"
+      onMouseEnter={() => open(nameList)}
+      onMouseLeave={close}
+    >
+      {children}
+    </ul>
+  );
 }
 
 Tabs.Tab = Tab;
+Tabs.Nav = Nav;
 Tabs.List = List;
 
 export default Tabs;
