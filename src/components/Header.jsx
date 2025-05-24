@@ -20,36 +20,29 @@ function Header() {
             </Link>
           </div>
 
-          <div className="relative flex flex-1 justify-center">
+          <div className="relative flex flex-1 items-center justify-center gap-4">
             <Tabs>
-              <Tabs.Tab tab="home">
-                <nav className="px-4">
-                  <Link className="relative py-2 text-gray-900 transition-all duration-200 hover:font-bold hover:text-black">
-                    Home
-                  </Link>
-                </nav>
+              <Tabs.Tab name="electronics">
+                <Tabs.Nav>
+                  <Link>Electronics</Link>
+                </Tabs.Nav>
               </Tabs.Tab>
-              <Tabs.Tab tab="electronics">
-                <nav className="px-4">
-                  <Link className="relative py-2 text-gray-900 transition-all duration-200 hover:font-bold hover:text-black">
-                    Electronics
+              <Tabs.Tab name="art">
+                <Tabs.Nav>
+                  <Link>Art &amp; Crafts</Link>
+                </Tabs.Nav>
+                <Tabs.List name="art">
+                  <Link className="block w-full" to="/electronics/laptop">
+                    Crafting
                   </Link>
-                </nav>
-              </Tabs.Tab>
-              <Tabs.Tab tab="art-craft">
-                <nav className="px-4">
-                  <Link className="relative py-2 text-gray-900 transition-all duration-200 hover:font-bold hover:text-black">
-                    Arts &amp; crafts
+                  <Link
+                    className="block w-full"
+                    to="/electronics/computers-tablets"
+                  >
+                    Painting, Drawing &amp; Art Supplies
                   </Link>
-                </nav>
+                </Tabs.List>
               </Tabs.Tab>
-
-              <Tabs.List name="electronics">
-                <ElectronicNavLinks />
-              </Tabs.List>
-              <Tabs.List name="art-craft">
-                <ArtCraftNavLinks />
-              </Tabs.List>
             </Tabs>
           </div>
 
