@@ -1,10 +1,9 @@
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { IoPerson } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
+import NavLinks from "../ui/NavLinks";
 import Tabs from "../ui/Tabs";
-import ArtCraftNavLinks from "./ArtCraftNavLinks";
-import ElectronicNavLinks from "./ElectronicNavLinks";
 
 function Header() {
   return (
@@ -22,25 +21,22 @@ function Header() {
 
           <div className="relative flex flex-1 items-center justify-center gap-4">
             <Tabs>
-              <Tabs.Tab name="electronics">
+              <Tabs.Tab>
                 <Tabs.Nav>
-                  <Link>Electronics</Link>
+                  <NavLink>Home</NavLink>
                 </Tabs.Nav>
               </Tabs.Tab>
               <Tabs.Tab name="art">
                 <Tabs.Nav>
-                  <Link>Art &amp; Crafts</Link>
+                  <NavLink>
+                    Art &amp; Crafts
+                  </NavLink>
                 </Tabs.Nav>
                 <Tabs.List name="art">
-                  <Link className="block w-full" to="/electronics/laptop">
-                    Crafting
-                  </Link>
-                  <Link
-                    className="block w-full"
-                    to="/electronics/computers-tablets"
-                  >
+                  <NavLinks to="/electronics/laptop">Crafting</NavLinks>
+                  <NavLinks to="/electronics/computers-tablets">
                     Painting, Drawing &amp; Art Supplies
-                  </Link>
+                  </NavLinks>
                 </Tabs.List>
               </Tabs.Tab>
             </Tabs>
