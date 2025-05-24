@@ -16,7 +16,10 @@ function CustomerServie() {
           </Link>
         </li>
         <li>
-          <Link className="text-gray-300 transition-colors hover:text-white">
+          <Link
+            to="/faq"
+            className="text-gray-300 transition-colors hover:text-white"
+          >
             FAQ
           </Link>
         </li>
