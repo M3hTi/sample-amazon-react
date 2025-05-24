@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+
 import { useLocalStorage } from "react-haiku";
 import toast from "react-hot-toast";
 
+import { useIsInCart } from "../hooks/useIsInCart";
 import Button from "../ui/Button";
 
 function Product({ product }) {
   const { id, name, description, price, image, category } = product;
-  const [isAlreadyInYourCart, setIsAlreadyInYourCart] = useState(false);
+  //   const [isAlreadyInYourCart, setIsAlreadyInYourCart] = useState(false);
 
   const [shoppingCart, setShoppingCart] = useLocalStorage("cart", []);
 
-  useEffect(() => {
-    const isProductExist = shoppingCart.some((item) => item.id === id);
-    if (isProductExist) {
-      setIsAlreadyInYourCart(true);
-    }
-  }, [id, shoppingCart]);
+  const { isAlreadyInYourCart } = useIsInCart(shoppingCart, id);
+
+  //   useEffect(() => {
+  //     const isProductExist = shoppingCart.some((item) => item.id === id);
+  //     if (isProductExist) {
+  //       setIsAlreadyInYourCart(true);
+  //     }
+  //   }, [id, shoppingCart]);
 
   function handleAddToCart(newProduct) {
     setShoppingCart((shoppingCart) => [...shoppingCart, newProduct]);
@@ -54,7 +57,9 @@ function Product({ product }) {
         <div className="mt-auto space-y-3">
           <div className="flex items-center justify-between">
             {isAlreadyInYourCart ? (
-              <p className="font-bold">This producct is Already in Your Cart!</p>
+              <p className="font-bold">
+                This producct is Already in Your Cart!
+              </p>
             ) : (
               <>
                 <span className="text-lg font-bold text-gray-900">
