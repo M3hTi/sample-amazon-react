@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Button({ children, to, className, onClick }) {
+function Button({ children, to, className, onClick, disabled = false }) {
   if (to) {
     return (
       <Link to={to} className={className}>
@@ -9,7 +9,7 @@ function Button({ children, to, className, onClick }) {
     );
   }
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );
