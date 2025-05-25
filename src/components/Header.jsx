@@ -1,3 +1,4 @@
+import { useLocalStorage } from "react-haiku";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { IoPerson } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
@@ -6,6 +7,9 @@ import NavLinks from "../ui/NavLinks";
 import Tabs from "../ui/Tabs";
 
 function Header() {
+  const [shoppingCart, setShoppingCart] = useLocalStorage("cart", []);
+
+  const shoppingCartLength = shoppingCart.length;
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-yellow-400 to-yellow-300 shadow-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -49,8 +53,13 @@ function Header() {
             <Link to="/login">
               <IoPerson className="text-[18px] transition-all duration-200 hover:text-stone-700" />
             </Link>
-            <Link>
+            <Link className="relative">
               <HiOutlineShoppingCart className="text-[18px] transition-all duration-200 hover:text-stone-700" />
+              {shoppingCartLength > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  {shoppingCartLength}
+                </span>
+              )}
             </Link>
           </div>
         </div>
