@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useIsInCart } from "../hooks/useIsInCart";
 import { updateStockById } from "../services/updateStockById";
 import Button from "../ui/Button";
+import Error from "../ui/Error";
 
 function Product({ product }) {
   const { id, name, description, price, image, category, inStock } = product;
@@ -45,32 +46,26 @@ function Product({ product }) {
         />
       </div>{" "}
       {/* Content container */}
-      {qtyAvilable <= 0 ? (
-        <div className="flex flex-1 flex-col p-5">
-          <p className="text-center font-semibold text-red-500">
-            This product is out of stock
-          </p>
+      <div className="flex flex-1 flex-col p-5">
+        {/* Category */}
+        <div className="mb-3">
+          <span className="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
+            {category}
+          </span>
         </div>
-      ) : (
-        <div className="flex flex-1 flex-col p-5">
-          {/* Category */}
-          <div className="mb-3">
-            <span className="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
-              {category}
-            </span>
-          </div>
 
-          {/* Product name */}
-          <h3 className="mb-2 line-clamp-2 flex-1 text-lg font-medium text-gray-900">
-            {name}
-          </h3>
+        {/* Product name */}
+        <h3 className="mb-2 line-clamp-2 flex-1 text-lg font-medium text-gray-900">
+          {name}
+        </h3>
 
-          {/* Description */}
-          <p className="mb-4 line-clamp-2 text-sm text-gray-500">
-            {description}
-          </p>
+        {/* Description */}
+        <p className="mb-4 line-clamp-2 text-sm text-gray-500">{description}</p>
 
-          {/* Price and buttons container */}
+        {/* Price and buttons container */}
+        {qtyAvilable <= 0 ? (
+          <Error>This product out of stock</Error>
+        ) : (
           <div className="mt-auto space-y-3">
             <div className="flex items-center justify-between">
               {isAlreadyInYourCart ? (
@@ -110,8 +105,8 @@ function Product({ product }) {
               Preview
             </Button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
