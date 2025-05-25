@@ -6,7 +6,7 @@ function AppLayout() {
   return (
     <div className="grid min-h-screen grid-rows-[60px_1fr_450px] bg-gray-50 md:grid-rows-[60px_1fr_230px]">
       <Header />
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full px-6 py-8 lg:px-12">
         <div className="mt-8">
           <Main />
         </div>
