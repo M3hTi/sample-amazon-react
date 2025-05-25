@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
 import toast from "react-hot-toast";
 
@@ -7,20 +7,18 @@ import Button from "../ui/Button";
 
 function Product({ product }) {
   const { id, name, description, price, image, category } = product;
-  //   const [isAlreadyInYourCart, setIsAlreadyInYourCart] = useState(false);
+
+  // for select element => we need to change uncontrolled element to controlled element
+  const [quantity, setQuantity] = useState(1);
 
   const [shoppingCart, setShoppingCart] = useLocalStorage("cart", []);
-
   const { isAlreadyInYourCart } = useIsInCart(shoppingCart, id);
 
-  //   useEffect(() => {
-  //     const isProductExist = shoppingCart.some((item) => item.id === id);
-  //     if (isProductExist) {
-  //       setIsAlreadyInYourCart(true);
-  //     }
-  //   }, [id, shoppingCart]);
-
-  function handleAddToCart(newProduct) {
+  function handleAddToCart(item) {
+    const newProduct = {
+      ...item,
+      quantity,
+    };
     setShoppingCart((shoppingCart) => [...shoppingCart, newProduct]);
     toast.success(`You Added to your cart 🎉`);
   }
@@ -58,13 +56,23 @@ function Product({ product }) {
           <div className="flex items-center justify-between">
             {isAlreadyInYourCart ? (
               <p className="font-bold">
-                This producct is Already in Your Cart!
+                This product is Already in Your Cart!
               </p>
             ) : (
               <>
-                <span className="text-lg font-bold text-gray-900">
-                  ${price?.toFixed(2)}
-                </span>
+                <div className="flex items-center gap-4">
+                  <span className="text-lg font-bold text-gray-900">
+                    ${price?.toFixed(2)}
+                  </span>
+                  <select
+                    onChange={(e) => setQuantity(+e.target.value)}
+                    className="h-9 rounded-md border-gray-300 bg-white px-3 text-sm shadow-sm focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 focus:outline-none"
+                  >
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <option value={`${i + 1}`}>{i + 1}</option>
+                    ))}
+                  </select>
+                </div>
 
                 <Button
                   className="cursor-pointer rounded-md bg-yellow-400 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm transition-colors hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
