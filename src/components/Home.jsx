@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Show } from "react-smart-conditional";
 
 import { fetchProducts } from "../services/fetchProducts";
@@ -8,19 +8,40 @@ import Spinner from "../ui/Spinner";
 import Product from "./Product";
 
 function Home() {
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useQuery({
+  const [selectedcategories, setSelectedCategories] = useState([]);
+
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
 
   // Get unique categories from products
   const categories = [
-    ...new Set(products?.map((product) => product.category) || []),
+    ...new Set(data?.map((product) => product.category) || []),
   ];
+
+  /**
+   * Filters the products based on the selected categories.
+   * If no categories are selected, all products are returned.
+   */
+  const products = data?.filter((product) =>
+    selectedcategories.length > 0
+      ? selectedcategories.includes(product.category)
+      : true,
+  );
+
+  /**
+   * Toggles the category filter based on the checkbox state.
+   * Adds the category to the state if checked, removes it if unchecked.
+   * @param {object} e - The event object from the checkbox change.
+   */
+  function toggleCategoryFilter(e) {
+    setSelectedCategories((categories) =>
+      categories.includes(e.target.value)
+        ? categories.filter((category) => category !== e.target.value)
+        : [...categories, e.target.value],
+    );
+  }
 
   return (
     <div className="flex w-full gap-8">
@@ -38,6 +59,9 @@ function Home() {
               >
                 <input
                   type="checkbox"
+                  value={category}
+                  onChange={toggleCategoryFilter}
+                  checked={selectedcategories.includes(category)}
                   className="h-4 w-4 cursor-pointer rounded border-gray-300 text-yellow-400 focus:ring-yellow-400"
                 />
                 <span className="text-sm text-gray-700 group-hover:text-gray-900">
