@@ -7,6 +7,8 @@ export function useIsInCart(shoppingCart, id) {
     const isProductExist = shoppingCart.some((item) => item.id === id);
     if (isProductExist) {
       setIsAlreadyInYourCart(true);
+    } else {
+      setIsAlreadyInYourCart(false);
     }
   }, [id, shoppingCart]);
 
