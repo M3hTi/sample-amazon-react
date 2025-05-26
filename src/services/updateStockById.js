@@ -1,15 +1,21 @@
 import supabase from "./supaBaseClient";
 
+
 /**
  * Updates the stock quantity of a product by its ID.
- * Fetches the current stock, calculates the new stock by subtracting the given quantity,
- * and updates the database record.
+ * Decreases, increases, or potentially handles a 'delete' operation based on the operation parameter.
+ * Note: The current implementation updates the 'inStock' value.
  *
- * @param {number | string} id The ID of the product to update.
- * @param {number} quantity The amount to subtract from the current stock.
- * @throws {string} Throws an error message string if fetching or updating fails.
+ * @param {string | number} id - The ID of the product to update.
+ * @param {number} [quantity=0] - The amount to increase or decrease the stock by. Defaults to 0.
+ * @param {"decrease" | "increase" | "delete"} [operation="decrease"] - The operation to perform ('increase', 'decrease', or 'delete'). Defaults to 'decrease'.
+ * @throws {Error} Throws an error if reading or updating the data fails.
  */
-export async function updateStockById(id, quantity) {
+export async function updateStockById(
+  id,
+  quantity = 0,
+  operation = "decrease",
+) {
   try {
     const { data: currentData, error: fetchError } = await supabase
       .from("products")
@@ -20,7 +26,14 @@ export async function updateStockById(id, quantity) {
     if (fetchError)
       throw new Error(`couldn't Read the Data, message: ${fetchError.message}`);
 
-    const newStock = currentData.inStock - quantity;
+    const newStock =
+      operation === "increase"
+        ? currentData.inStock + quantity
+        : operation === "decrease"
+          ? currentData.inStock - quantity
+          : currentData.inStock;
+
+    // const newStock = currentData.inStock - quantity;
     const { data, error } = await supabase
       .from("products")
       .update({ inStock: newStock })
