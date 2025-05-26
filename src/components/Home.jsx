@@ -44,7 +44,7 @@ function Home() {
   }
 
   return (
-    <div className="flex w-full gap-8">
+    <div className="flex w-full gap-8 pt-10">
       {/* Categories sidebar */}
       <div className="hidden xl:block xl:w-72 xl:flex-shrink-0">
         <div className="sticky top-24 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
