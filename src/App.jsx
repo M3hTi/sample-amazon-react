@@ -3,9 +3,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import AppLayout from "./components/AppLayout";
 import FAQ from "./pages/FAQ";
 import HomePage from "./pages/HomePage";
+import AppLayout from "./ui/AppLayout";
 
 const queryClient = new QueryClient();
 
