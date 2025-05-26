@@ -1,12 +1,48 @@
-# React + Vite
+## project tree:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+src/
+├─ assets/
+│  └─ react.svg
+├─ components/
+│  ├─ AboutUs.jsx
+│  ├─ Carousel.jsx
+│  ├─ CartItem.jsx
+│  ├─ CartItems.jsx
+│  ├─ CustomerService.jsx
+│  ├─ Footer.jsx
+│  ├─ Header.jsx
+│  ├─ Home.jsx
+│  ├─ Main.jsx
+│  ├─ Product.jsx
+│  ├─ ShoppingCart.jsx
+│  └─ SocialAccounts.jsx
+├─ context/
+│  └─ Overlay.jsx
+├─ hooks/
+│  ├─ useIsInCart.js
+│  └─ useOutsideClick.jsx
+├─ pages/
+│  ├─ FAQ.jsx
+│  └─ HomePage.jsx
+├─ services/
+│  ├─ fetchProducts.js
+│  ├─ supaBaseClient.js
+│  └─ updateStockById.js
+├─ ui/
+│  ├─ Accordions.jsx
+│  ├─ AppLayout.jsx
+│  ├─ Button.jsx
+│  ├─ Error.jsx
+│  ├─ Message.jsx
+│  ├─ NavLinks.jsx
+│  ├─ Spinner.jsx
+│  └─ Tabs.jsx
+├─ utils/
+│  └─ helpers.js
+├─ App.jsx
+├─ index.css
+└─ main.jsx
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
