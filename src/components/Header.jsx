@@ -3,11 +3,15 @@ import { HiOutlineShoppingCart } from "react-icons/hi";
 import { IoPerson } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 
+import { useOverlay } from "../context/Overlay";
+import Button from "../ui/Button";
 import NavLinks from "../ui/NavLinks";
 import Tabs from "../ui/Tabs";
 
 function Header() {
   const [shoppingCart, setShoppingCart] = useLocalStorage("cart", []);
+
+  const { setIsOpen } = useOverlay();
 
   const shoppingCartLength = shoppingCart.length;
   return (
@@ -53,14 +57,17 @@ function Header() {
             <Link to="/login">
               <IoPerson className="text-[18px] transition-all duration-200 hover:text-stone-700" />
             </Link>
-            <Link className="relative">
+            <Button
+              className="relative cursor-pointer"
+              onClick={() => setIsOpen(true)}
+            >
               <HiOutlineShoppingCart className="text-[18px] transition-all duration-200 hover:text-stone-700" />
               {shoppingCartLength > 0 && (
                 <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                   {shoppingCartLength}
                 </span>
               )}
-            </Link>
+            </Button>
           </div>
         </div>
       </div>
