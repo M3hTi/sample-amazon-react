@@ -15,7 +15,7 @@ function CartItem({ item }) {
 
   function handleDeleteItem() {
     setShoppingCart((cartItems) => cartItems.filter((item) => item.id !== id));
-    updateStockById(id, 0, "delete");
+    updateStockById(id, quantitySelector, "delete");
     toast.success(`You Delete an item from your cart ⚠️`);
   }
 
@@ -57,7 +57,9 @@ function CartItem({ item }) {
               <input
                 type="number"
                 value={quantitySelector}
+                min="1"
                 onChange={(e) => setQuantitySelector(+e.target.value)}
+                className="w-16 rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
 
