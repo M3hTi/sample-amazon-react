@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
 import toast from "react-hot-toast";
 
@@ -6,12 +7,24 @@ import Button from "../ui/Button";
 function CartItem({ item }) {
   const { id, image, description, name, price, quantity } = item;
 
+  //   for controlled the uncontroll select element
+  const [quantitySelector, setQuantitySelector] = useState(quantity);
+
   const [shoppingCart, setShoppingCart] = useLocalStorage("cart");
 
   function handleDeleteItem() {
     setShoppingCart((cartItems) => cartItems.filter((item) => item.id !== id));
     toast.success(`You Delete an item from your cart ⚠️`);
   }
+
+function handleUpdateItem() {
+    setShoppingCart((cartItems) =>
+        cartItems.map((item) =>
+            item.id === id ? { ...item, quantity: quantitySelector } : item,
+        ),
+    );
+    toast.success(`Updated quantity for ${name} to ${quantitySelector}`);
+}
 
   return (
     <div className="flex items-center gap-4 border-gray-200 px-2 py-4 transition-colors hover:bg-gray-50 [&:not(:last-child)]:border-b">
@@ -35,20 +48,22 @@ function CartItem({ item }) {
             <div className="flex items-center gap-2">
               <span className="text-gray-600">Quantity:</span>
               <select
-                value={quantity}
+                value={quantitySelector}
+                onChange={(e) => setQuantitySelector(+e.target.value)}
                 className="rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none"
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
+                {Array.from({ length: 5 }, (_, i) => (
+                  <option value={i + 1}>{i + 1}</option>
                 ))}
               </select>
             </div>
 
             {/* Action Buttons */}
             <div className="flex items-center gap-2">
-              <Button className="cursor-pointer rounded-md bg-amber-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none">
+              <Button
+                onClick={handleUpdateItem}
+                className="cursor-pointer rounded-md bg-amber-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none"
+              >
                 Update
               </Button>
               <Button
