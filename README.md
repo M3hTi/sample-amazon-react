@@ -1,5 +1,6 @@
 ## project tree:
 
+```text
 src/
 ├─ assets/
 │  └─ react.svg
@@ -43,6 +44,7 @@ src/
 ├─ index.css
 └─ main.jsx
 
+```
 
 
 
