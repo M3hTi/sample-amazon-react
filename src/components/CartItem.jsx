@@ -1,7 +1,15 @@
+import { useLocalStorage } from "react-haiku";
+
 import Button from "../ui/Button";
 
 function CartItem({ item }) {
-  const { image, description, name, price, quantity } = item;
+  const { id, image, description, name, price, quantity } = item;
+
+  const [shoppingCart, setShoppingCart] = useLocalStorage("cart");
+
+  function handleDeleteItem() {
+    setShoppingCart((cartItems) => cartItems.filter((item) => item.id !== id));
+  }
 
   return (
     <div className="flex items-center gap-4 border-gray-200 px-2 py-4 transition-colors hover:bg-gray-50 [&:not(:last-child)]:border-b">
@@ -41,7 +49,10 @@ function CartItem({ item }) {
               <Button className="cursor-pointer rounded-md bg-amber-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none">
                 Update
               </Button>
-              <Button className="cursor-pointer rounded-md border border-red-500 px-3 py-1 text-sm font-medium text-red-500 transition-colors hover:bg-red-50 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none">
+              <Button
+                onClick={handleDeleteItem}
+                className="cursor-pointer rounded-md border border-red-500 px-3 py-1 text-sm font-medium text-red-500 transition-colors hover:bg-red-50 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+              >
                 Delete
               </Button>
             </div>
