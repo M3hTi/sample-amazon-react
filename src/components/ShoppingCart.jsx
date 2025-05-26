@@ -3,7 +3,7 @@ import { useLocalStorage } from "react-haiku";
 import { GrFormClose } from "react-icons/gr";
 
 import { useOverlay } from "../context/Overlay";
-import { useOutsideClick } from "../hooks/useOutSideClick";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 import Button from "../ui/Button";
 import Message from "../ui/Message";
 import CartItems from "./CartItems";
