@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
 import toast from "react-hot-toast";
 
+import { updateStockById } from "../services/updateStockById";
 import Button from "../ui/Button";
 
 function CartItem({ item }) {
@@ -14,17 +15,23 @@ function CartItem({ item }) {
 
   function handleDeleteItem() {
     setShoppingCart((cartItems) => cartItems.filter((item) => item.id !== id));
+    updateStockById(id, 0, "delete");
     toast.success(`You Delete an item from your cart ⚠️`);
   }
 
-function handleUpdateItem() {
+  function handleUpdateItem() {
     setShoppingCart((cartItems) =>
-        cartItems.map((item) =>
-            item.id === id ? { ...item, quantity: quantitySelector } : item,
-        ),
+      cartItems.map((item) =>
+        item.id === id ? { ...item, quantity: quantitySelector } : item,
+      ),
     );
+
+    quantitySelector > quantity
+      ? updateStockById(id, quantitySelector - quantity)
+      : updateStockById(id, quantity - quantitySelector, "increase");
+
     toast.success(`Updated quantity for ${name} to ${quantitySelector}`);
-}
+  }
 
   return (
     <div className="flex items-center gap-4 border-gray-200 px-2 py-4 transition-colors hover:bg-gray-50 [&:not(:last-child)]:border-b">
@@ -47,15 +54,11 @@ function handleUpdateItem() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-gray-600">Quantity:</span>
-              <select
+              <input
+                type="number"
                 value={quantitySelector}
                 onChange={(e) => setQuantitySelector(+e.target.value)}
-                className="rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none"
-              >
-                {Array.from({ length: 5 }, (_, i) => (
-                  <option value={i + 1}>{i + 1}</option>
-                ))}
-              </select>
+              />
             </div>
 
             {/* Action Buttons */}
