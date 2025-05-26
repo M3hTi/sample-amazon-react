@@ -1,4 +1,5 @@
 import { useLocalStorage } from "react-haiku";
+import toast from "react-hot-toast";
 
 import Button from "../ui/Button";
 
@@ -9,6 +10,7 @@ function CartItem({ item }) {
 
   function handleDeleteItem() {
     setShoppingCart((cartItems) => cartItems.filter((item) => item.id !== id));
+    toast.success(`You Delete an item from your cart ⚠️`);
   }
 
   return (
