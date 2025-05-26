@@ -30,18 +30,21 @@ function ShoppingCart() {
   return (
     <div
       ref={ref}
-      className="fixed top-1/2 left-1/2 z-100 w-xs -translate-x-1/2 -translate-y-1/2 transform bg-white px-2 py-8 shadow-2xl shadow-black/25 sm:w-xl md:w-2xl lg:w-3xl"
+      className="fixed top-1/2 left-1/2 z-100 max-h-[90vh] w-xs -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/25 sm:w-xl md:w-2xl lg:w-3xl"
     >
-      <div className="absolute top-0 right-0">
+      <div className="sticky top-0 z-10 flex justify-end border-b border-gray-100 bg-white p-2">
         <Button className="cursor-pointer" onClick={() => setIsOpen(false)}>
           <GrFormClose className="text-3xl" />
         </Button>
       </div>
-      {shoppingCart.length === 0 ? (
-        <Message>Your Cart is Empty.</Message>
-      ) : (
-        <CartItems />
-      )}
+
+      <div className="max-h-[calc(90vh-120px)] overflow-y-auto px-4 py-6">
+        {shoppingCart.length === 0 ? (
+          <Message>Your Cart is Empty.</Message>
+        ) : (
+          <CartItems />
+        )}
+      </div>
     </div>
   );
 }
