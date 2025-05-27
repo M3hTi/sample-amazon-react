@@ -6,10 +6,17 @@ import { updateStockById } from "../services/updateStockById";
 import Button from "../ui/Button";
 
 function CartItem({ item }) {
-  const { id, image, description, name, price, quantity } = item;
+  console.log(item);
+  const { id, image, description, name, price, quantity, inStock } = item;
 
   //   for controlled the uncontroll select element
   const [quantitySelector, setQuantitySelector] = useState(quantity);
+
+  // State to track if user tried to exceed stock
+  const [showStockWarning, setShowStockWarning] = useState(false);
+
+  const availableInStocck = quantity + inStock;
+  console.log(availableInStocck);
 
   const [shoppingCart, setShoppingCart] = useLocalStorage("cart");
 
@@ -22,7 +29,13 @@ function CartItem({ item }) {
   function handleUpdateItem() {
     setShoppingCart((cartItems) =>
       cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: quantitySelector } : item,
+        item.id === id
+          ? {
+              ...item,
+              quantity: quantitySelector,
+              inStock: availableInStocck - quantitySelector,
+            }
+          : item,
       ),
     );
 
@@ -31,6 +44,19 @@ function CartItem({ item }) {
       : updateStockById(id, quantity - quantitySelector, "increase");
 
     toast.success(`Updated quantity for ${name} to ${quantitySelector}`);
+  }
+
+  function handleQuantityChange(e) {
+    const newQuantity = +e.target.value;
+
+    if (newQuantity > availableInStocck) {
+      setShowStockWarning(true);
+      // Don't update the quantity selector if it exceeds available stock
+      return;
+    } else {
+      setShowStockWarning(false);
+      setQuantitySelector(newQuantity);
+    }
   }
 
   return (
@@ -49,16 +75,27 @@ function CartItem({ item }) {
         <h3 className="mb-1 text-lg font-medium text-gray-900">{name}</h3>
         <p className="mb-2 line-clamp-2 text-sm text-gray-500">{description}</p>
 
+        {/* Stock Warning Message */}
+        {showStockWarning && (
+          <div className="mb-3 rounded-md border border-red-200 bg-red-50 px-3 py-2">
+            <p className="text-sm text-red-700">
+              ⚠️ Sorry, only {availableInStocck} items available in stock. You
+              cannot add more than this quantity.
+            </p>
+          </div>
+        )}
+
         {/* Price, Quantity and Actions */}
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-4 md:flex md:items-center">
             <div className="flex items-center gap-2">
               <span className="text-gray-600">Quantity:</span>
               <input
+                disabled={quantitySelector >= availableInStocck}
                 type="number"
                 value={quantitySelector}
                 min="1"
-                onChange={(e) => setQuantitySelector(+e.target.value)}
+                onChange={handleQuantityChange}
                 className="w-16 rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
