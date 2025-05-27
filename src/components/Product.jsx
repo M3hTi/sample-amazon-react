@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
-import toast from "react-hot-toast";
 
+// import toast from "react-hot-toast";
 import { useIsInCart } from "../hooks/useIsInCart";
-import { updateStockById } from "../services/updateStockById";
+// import { updateStockById } from "../services/updateStockById";
 import Button from "../ui/Button";
 import Error from "../ui/Error";
+import { addToCart } from "../utils/helpers";
 
 function Product({ product }) {
+  console.log(product);
   const { id, name, description, price, image, category, inStock } = product;
   const [qtyAvilable, setQtyAvailabe] = useState(inStock);
 
@@ -17,24 +19,31 @@ function Product({ product }) {
   const [shoppingCart, setShoppingCart] = useLocalStorage("cart", []);
   const { isAlreadyInYourCart } = useIsInCart(shoppingCart, id);
 
-  function handleAddToCart() {
-    // Update stock in database
-    updateStockById(id, quantity);
-    // Update local stock state
-    setQtyAvailabe((prev) => prev - quantity);
+  // function handleAddToCart() {
+  //   // Update stock in database
+  //   updateStockById(id, quantity);
+  //   // Update local stock state
+  //   setQtyAvailabe((prev) => prev - quantity);
 
-    const newProduct = {
-      id,
-      name,
-      description,
-      price,
-      image,
-      category,
-      quantity,
-    };
+  //   const newProduct = {
+  //     id,
+  //     name,
+  //     description,
+  //     price,
+  //     image,
+  //     category,
+  //     quantity,
+  //   };
+  //   setShoppingCart((shoppingCart) => [...shoppingCart, newProduct]);
+  //   toast.success(`You Added to your cart 🎉`);
+  // }
+
+  function handleAddToCart() {
+    setQtyAvailabe((prev) => prev - quantity);
+    const newProduct = addToCart(product, quantity);
     setShoppingCart((shoppingCart) => [...shoppingCart, newProduct]);
-    toast.success(`You Added to your cart 🎉`);
   }
+
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:scale-[1.02] hover:shadow-lg">
       {/* Image container */}
@@ -77,6 +86,7 @@ function Product({ product }) {
                       ${price?.toFixed(2)}
                     </span>
                     <select
+                      value={quantity}
                       onChange={(e) => setQuantity(+e.target.value)}
                       className="h-9 rounded-md border border-gray-200 bg-white px-3 text-sm shadow-sm transition-colors hover:border-yellow-300 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 focus:outline-none"
                     >
@@ -96,12 +106,15 @@ function Product({ product }) {
             </div>
             <Button
               className="w-full cursor-pointer rounded-md border border-gray-200 bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition-all duration-200 hover:border-yellow-500 hover:bg-yellow-400 hover:text-gray-900 focus:ring-2 focus:ring-yellow-400 focus:outline-none disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:border-gray-200 disabled:hover:bg-gray-200 disabled:hover:text-gray-400"
-              onClick={() => handleAddToCart(product)}
+              onClick={handleAddToCart}
               disabled={isAlreadyInYourCart}
             >
               Add to Cart
             </Button>
-            <Button className="w-full cursor-pointer rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200 focus:outline-none">
+            <Button
+              to={`${id}`}
+              className="block w-full cursor-pointer rounded-md border border-gray-200 bg-white px-4 py-2 text-center text-sm font-semibold text-gray-700 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200 focus:outline-none"
+            >
               Preview
             </Button>
           </div>
