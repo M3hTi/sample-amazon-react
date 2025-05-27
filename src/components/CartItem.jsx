@@ -34,7 +34,7 @@ function CartItem({ item }) {
   }
 
   return (
-    <div className="flex items-center gap-4 border-gray-200 px-2 py-4 transition-colors hover:bg-gray-50 [&:not(:last-child)]:border-b">
+    <div className="flex flex-col gap-4 border-gray-200 px-2 py-4 transition-colors hover:bg-gray-50 md:flex md:items-center [&:not(:last-child)]:border-b">
       {/* Product Image */}
       <div className="h-24 w-24 flex-shrink-0">
         <img
@@ -51,7 +51,7 @@ function CartItem({ item }) {
 
         {/* Price, Quantity and Actions */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-4 md:flex md:items-center">
             <div className="flex items-center gap-2">
               <span className="text-gray-600">Quantity:</span>
               <input
