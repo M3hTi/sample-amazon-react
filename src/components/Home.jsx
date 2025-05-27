@@ -14,21 +14,22 @@ function Home() {
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
-
   // Get unique categories from products
-  const categories = [
-    ...new Set(data?.map((product) => product.category) || []),
-  ];
+  const categories = Array.isArray(data)
+    ? [...new Set(data.map((product) => product.category))]
+    : [];
 
   /**
    * Filters the products based on the selected categories.
    * If no categories are selected, all products are returned.
    */
-  const products = data?.filter((product) =>
-    selectedcategories.length > 0
-      ? selectedcategories.includes(product.category)
-      : true,
-  );
+  const products = Array.isArray(data)
+    ? data?.filter((product) =>
+        selectedcategories.length > 0
+          ? selectedcategories.includes(product.category)
+          : true,
+      )
+    : [];
 
   /**
    * Toggles the category filter based on the checkbox state.
