@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import FAQ from "./pages/FAQ";
 import HomePage from "./pages/HomePage";
+import PreviewPage from "./pages/PreviewPage";
 import AppLayout from "./ui/AppLayout";
 
 const queryClient = new QueryClient();
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route element={<AppLayout />}>
               <Route path="/" element={<HomePage />} />
+              <Route path=":id" element={<PreviewPage />} />
               <Route path="faq" element={<FAQ />} />
             </Route>
           </Routes>
