@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
+import { GoDotFill } from "react-icons/go";
 import { Link, useParams } from "react-router-dom";
 
 import { useIsInCart } from "../hooks/useIsInCart";
@@ -96,7 +97,12 @@ function Preview() {
 
           <div className="prose max-w-none">
             {descriptionArr.map((description) => (
-              <p className="text-gray-600">{description}</p>
+              <p className="text-gray-600">
+                <span className="inline-block">
+                  <GoDotFill />
+                </span>
+                {description}
+              </p>
             ))}
           </div>
 
