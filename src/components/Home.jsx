@@ -1,5 +1,9 @@
+import "rc-pagination/assets/index.css";
+
 import { useQuery } from "@tanstack/react-query";
-import { Fragment, useState } from "react";
+import Pagination from "rc-pagination";
+import { Fragment, useEffect, useMemo, useState } from "react";
+import { HiArrowCircleLeft, HiArrowCircleRight } from "react-icons/hi";
 import { Show } from "react-smart-conditional";
 
 import { fetchProducts } from "../services/fetchProducts";
@@ -23,13 +27,17 @@ function Home() {
    * Filters the products based on the selected categories.
    * If no categories are selected, all products are returned.
    */
-  const products = Array.isArray(data)
-    ? data?.filter((product) =>
-        selectedcategories.length > 0
-          ? selectedcategories.includes(product.category)
-          : true,
-      )
-    : [];
+  const products = useMemo(
+    () =>
+      Array.isArray(data)
+        ? data?.filter((product) =>
+            selectedcategories.length > 0
+              ? selectedcategories.includes(product.category)
+              : true,
+          )
+        : [],
+    [data, selectedcategories],
+  );
 
   /**
    * Toggles the category filter based on the checkbox state.
@@ -42,6 +50,32 @@ function Home() {
         ? categories.filter((category) => category !== e.target.value)
         : [...categories, e.target.value],
     );
+  }
+
+  // for pagination
+  const pageSize = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [collection, setCollection] = useState([]);
+
+  // Reset pagination to first page whenever selected categories change
+  // This ensures users start from the first page when applying new category filters
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [selectedcategories]);
+
+  // Handle pagination of products
+  // Calculate the start and end indices based on current page and page size
+  // Updates collection state with the correct slice of products to display
+  // Re-runs when either products array changes or user navigates to a different page
+  useEffect(() => {
+    const startIndex = currentPage === 1 ? 0 : (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    setCollection(products.slice(startIndex, endIndex));
+  }, [products, currentPage]);
+
+  function updatePage(p) {
+    setCurrentPage(p);
   }
 
   return (
@@ -86,9 +120,20 @@ function Home() {
           <Show.Else as={Fragment}>
             <h2 className="mb-8 text-2xl font-bold">Products</h2>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-              {products?.map((product) => (
+              {collection?.map((product) => (
                 <Product key={product.id} product={product} />
               ))}
+            </div>
+            <div className="mt-10 flex items-center justify-center">
+              <Pagination
+                className="flex items-center gap-1"
+                pageSize={pageSize}
+                prevIcon={<HiArrowCircleLeft className="text-3xl" />}
+                nextIcon={<HiArrowCircleRight className="text-3xl" />}
+                current={currentPage}
+                total={products.length}
+                onChange={updatePage}
+              />
             </div>
           </Show.Else>
         </Show>
