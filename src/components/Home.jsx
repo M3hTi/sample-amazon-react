@@ -1,16 +1,17 @@
-import "rc-pagination/assets/index.css";
-
 import { useQuery } from "@tanstack/react-query";
-import Pagination from "rc-pagination";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Show } from "react-smart-conditional";
 
+import { usePaginate } from "../context/PaginateContext";
 import { fetchProducts } from "../services/fetchProducts";
 import Error from "../ui/Error";
+import Pagination from "../ui/Pagination";
 import Spinner from "../ui/Spinner";
 import Product from "./Product";
 
 function Home() {
+  const { currentPage, startIndex, endIndex } = usePaginate();
+
   const [selectedcategories, setSelectedCategories] = useState([]);
 
   const { data, isLoading, isError } = useQuery({
@@ -26,13 +27,15 @@ function Home() {
    * Filters the products based on the selected categories.
    * If no categories are selected, all products are returned.
    */
-  const products = Array.isArray(data)
-    ? data?.filter((product) =>
-        selectedcategories.length > 0
-          ? selectedcategories.includes(product.category)
-          : true,
-      )
-    : [];
+  const products = useMemo(() => {
+    return Array.isArray(data)
+      ? data?.filter((product) =>
+          selectedcategories.length > 0
+            ? selectedcategories.includes(product.category)
+            : true,
+        )
+      : [];
+  }, [data, selectedcategories]);
 
   /**
    * Toggles the category filter based on the checkbox state.
@@ -46,6 +49,13 @@ function Home() {
         : [...categories, e.target.value],
     );
   }
+
+  // for paginatelogic
+  const [productsByPaginate, setProductsByPaginate] = useState(products || []);
+
+  useEffect(() => {
+    setProductsByPaginate(products.slice(startIndex, endIndex));
+  }, [currentPage, selectedcategories, startIndex, endIndex, products]);
 
   return (
     <div className="flex w-full gap-8 pt-10">
@@ -89,11 +99,13 @@ function Home() {
           <Show.Else as={Fragment}>
             <h2 className="mb-8 text-2xl font-bold">Products</h2>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-              {products?.map((product) => (
+              {productsByPaginate?.map((product) => (
                 <Product key={product.id} product={product} />
               ))}
             </div>
-            <div className="mt-10 flex items-center justify-center"></div>
+            <div className="mt-10 flex items-center justify-center">
+              <Pagination counter={products.length || 0} />
+            </div>
           </Show.Else>
         </Show>
       </div>
