@@ -1,13 +1,16 @@
 import Carousel from "../components/Carousel";
 import Home from "../components/Home";
+import PaginateProvider from "../context/PaginateContext";
 function HomePage() {
   return (
-    <div>
-      <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-        <Carousel />
+    <PaginateProvider>
+      <div>
+        <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+          <Carousel />
+        </div>
+        <Home />
       </div>
-      <Home />
-    </div>
+    </PaginateProvider>
   );
 }
 
