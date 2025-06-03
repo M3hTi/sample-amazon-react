@@ -39,17 +39,6 @@ function Header() {
                   </NavLink>
                 </Tabs.Nav>
               </Tabs.Tab>
-              <Tabs.Tab name="art">
-                <Tabs.Nav>
-                  <NavLink>Art &amp; Crafts</NavLink>
-                </Tabs.Nav>
-                <Tabs.List name="art">
-                  <NavLinks to="/electronics/laptop">Crafting</NavLinks>
-                  <NavLinks to="/electronics/computers-tablets">
-                    Painting, Drawing &amp; Art Supplies
-                  </NavLinks>
-                </Tabs.List>
-              </Tabs.Tab>
             </Tabs>
           </div>
 
