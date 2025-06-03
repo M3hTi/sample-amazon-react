@@ -10,7 +10,7 @@ import Spinner from "../ui/Spinner";
 import Product from "./Product";
 
 function Home() {
-  const { currentPage, startIndex, endIndex } = usePaginate();
+  const { currentPage, setCurrentPage, startIndex, endIndex } = usePaginate();
 
   const [selectedcategories, setSelectedCategories] = useState([]);
 
@@ -56,6 +56,11 @@ function Home() {
   useEffect(() => {
     setProductsByPaginate(products.slice(startIndex, endIndex));
   }, [currentPage, selectedcategories, startIndex, endIndex, products]);
+
+  // Reset pagination to first page whenever categories filter changes
+  useEffect(()=> {
+    setCurrentPage(1)
+  }, [selectedcategories, setCurrentPage])
 
   return (
     <div className="flex w-full gap-8 pt-10">
