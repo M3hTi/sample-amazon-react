@@ -6,7 +6,7 @@ function GoHome() {
     <div className="fixed right-7 bottom-7">
       <Link
         to="/"
-        className="block rounded-full bg-blue-300 p-3 transition-all duration-300 hover:bg-blue-500"
+        className="block rounded-full bg-gradient-to-r from-yellow-400 to-yellow-300 p-3 transition-all duration-300 hover:bg-yellow-500"
       >
         <HiHome className="text-5xl" />
       </Link>
