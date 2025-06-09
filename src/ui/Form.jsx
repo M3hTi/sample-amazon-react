@@ -80,9 +80,9 @@ function Form({ type }) {
           <div className="space-y-2">
             <label
               htmlFor="name"
-              className="flex items-center text-sm font-medium text-gray-700"
+              className="flex items-center text-sm font-medium text-yellow-400"
             >
-              <HiUser className="mr-2 h-5 w-5 text-blue-500" />
+              <HiUser className="mr-2 h-5 w-5" />
               Name
             </label>
             <input
@@ -102,9 +102,9 @@ function Form({ type }) {
           <div className="space-y-2">
             <label
               htmlFor="email"
-              className="flex items-center text-sm font-medium text-gray-700"
+              className="flex items-center text-sm font-medium text-yellow-400"
             >
-              <HiMail className="mr-2 h-5 w-5 text-blue-500" />
+              <HiMail className="mr-2 h-5 w-5 " />
               Email
             </label>
             <input
@@ -128,9 +128,9 @@ function Form({ type }) {
           <div className="space-y-2">
             <label
               htmlFor="subject"
-              className="flex items-center text-sm font-medium text-gray-700"
+              className="flex items-center text-sm font-medium text-yellow-400"
             >
-              <HiClipboardList className="mr-2 h-5 w-5 text-blue-500" />
+              <HiClipboardList className="mr-2 h-5 w-5 " />
               Subject
             </label>
             <input
@@ -154,9 +154,9 @@ function Form({ type }) {
           <div className="space-y-2">
             <label
               htmlFor="message"
-              className="flex items-center text-sm font-medium text-gray-700"
+              className="flex items-center text-sm font-medium text-yellow-400"
             >
-              <HiChat className="mr-2 h-5 w-5 text-blue-500" />
+              <HiChat className="mr-2 h-5 w-5 " />
               Message
             </label>
             <textarea
@@ -182,7 +182,7 @@ function Form({ type }) {
           <Button
             type="submit"
             disabled={sendingForm}
-            className="w-full rounded-lg bg-blue-600 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-500"
+            className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-500"
           >
             {sendingForm ? "Submitting Your form..." : "Send Message"}
           </Button>
@@ -205,7 +205,7 @@ function Form({ type }) {
               htmlFor="email"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiMail className="mr-2 h-5 w-5 text-blue-500" />
+              <HiMail className="mr-2 h-5 w-5 " />
               Email
             </label>
             <input
@@ -229,7 +229,7 @@ function Form({ type }) {
               htmlFor="password"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiLockClosed className="mr-2 h-5 w-5 text-blue-500" />
+              <HiLockClosed className="mr-2 h-5 w-5 " />
               Password
             </label>
             <input
@@ -275,7 +275,7 @@ function Form({ type }) {
               htmlFor="name"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiUser className="mr-2 h-5 w-5 text-blue-500" />
+              <HiUser className="mr-2 h-5 w-5 " />
               Full Name
             </label>
             <input
@@ -295,7 +295,7 @@ function Form({ type }) {
               htmlFor="email"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiMail className="mr-2 h-5 w-5 text-blue-500" />
+              <HiMail className="mr-2 h-5 w-5 " />
               Email
             </label>
             <input
@@ -319,7 +319,7 @@ function Form({ type }) {
               htmlFor="password"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiLockClosed className="mr-2 h-5 w-5 text-blue-500" />
+              <HiLockClosed className="mr-2 h-5 w-5 " />
               Password
             </label>
             <input
@@ -343,7 +343,7 @@ function Form({ type }) {
               htmlFor="confirmPassword"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiLockClosed className="mr-2 h-5 w-5 text-blue-500" />
+              <HiLockClosed className="mr-2 h-5 w-5 " />
               Confirm Password
             </label>
             <input
