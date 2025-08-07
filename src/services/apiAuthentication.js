@@ -7,7 +7,7 @@ export async function signup({ email, password, name }) {
       password,
       options: {
         data: {
-          fullName : name
+          fullName: name,
         },
       },
     });
@@ -37,6 +37,29 @@ export async function login({ email, password }) {
       );
 
     return data;
+  } catch (error) {
+    console.log(error.message);
+    throw error;
+  }
+}
+
+export async function getCurrentUser() {
+  try {
+    const { data: session, error: errorSession } =
+      await supabase.auth.getSession();
+
+    if (errorSession)
+      throw new Error(
+        `We can't retrieve session!!, error: ${errorSession.message}`,
+      );
+
+    if (!session.session) throw new Error("we don't have session yet!");
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    return user;
   } catch (error) {
     console.log(error.message);
     throw error;

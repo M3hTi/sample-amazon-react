@@ -4,12 +4,15 @@ import { IoPerson } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 
 import { useOverlay } from "../context/Overlay";
+import { useUser } from "../features/authentication/useUser";
 import Button from "../ui/Button";
-import NavLinks from "../ui/NavLinks";
 import Tabs from "../ui/Tabs";
+import MiniLoading from "./MiniLoading";
 
 function Header() {
   const [shoppingCart, setShoppingCart] = useLocalStorage("cart", []);
+
+  const { user, isLoading, isAuthenticated } = useUser();
 
   const { setIsOpen } = useOverlay();
 
@@ -43,9 +46,16 @@ function Header() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Link to="/login">
-              <IoPerson className="text-[18px] transition-all duration-200 hover:text-stone-700" />
-            </Link>
+            {isLoading && <MiniLoading />}
+            {!isLoading && !isAuthenticated && (
+              <Link to="/login">
+                <IoPerson className="text-[18px] transition-all duration-200 hover:text-stone-700" />
+              </Link>
+            )}
+            {!isLoading && isAuthenticated && (
+              <Button to="account">{user?.user_metadata?.fullName}</Button>
+            )}
+
             <Button
               className="relative cursor-pointer"
               onClick={() => setIsOpen(true)}
