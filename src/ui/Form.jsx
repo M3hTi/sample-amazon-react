@@ -220,199 +220,225 @@ function Form({ type }) {
 
   if (type === "login")
     return (
-      <form
-        onSubmit={handleSubmit(handleForm, onError)}
-        className="mx-auto w-3xl max-w-md space-y-6 rounded-xl bg-white p-6 shadow-lg"
-      >
-        <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
-          Login
-        </h2>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <label
-              htmlFor="email"
-              className="flex items-center text-sm font-medium text-gray-700"
-            >
-              <HiMail className="mr-2 h-5 w-5" />
-              Email
-            </label>
-            <input
-              disabled={logging}
-              type="email"
-              id="email"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Enter your email"
-              {...register("email", {
-                required: "Please enter your email address",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Please enter a valid email address",
-                },
-              })}
-            />
-            {errors.email && <Error>{errors.email.message}</Error>}
-          </div>{" "}
-          <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="flex items-center text-sm font-medium text-gray-700"
-            >
-              <HiLockClosed className="mr-2 h-5 w-5" />
-              Password
-            </label>
-            <div className="relative">
+      <div className="mx-auto w-3xl max-w-md space-y-6 rounded-xl bg-white p-6 shadow-lg">
+        <form onSubmit={handleSubmit(handleForm, onError)}>
+          <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
+            Login
+          </h2>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="flex items-center text-sm font-medium text-gray-700"
+              >
+                <HiMail className="mr-2 h-5 w-5" />
+                Email
+              </label>
               <input
                 disabled={logging}
-                type={showPass ? "text" : "password"}
+                type="email"
+                id="email"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                placeholder="Enter your email"
+                {...register("email", {
+                  required: "Please enter your email address",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Please enter a valid email address",
+                  },
+                })}
+              />
+              {errors.email && <Error>{errors.email.message}</Error>}
+            </div>{" "}
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="flex items-center text-sm font-medium text-gray-700"
+              >
+                <HiLockClosed className="mr-2 h-5 w-5" />
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  disabled={logging}
+                  type={showPass ? "text" : "password"}
+                  id="password"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-12 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                  placeholder="Enter your password"
+                  {...register("password", {
+                    required: "Please enter your password",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                  })}
+                />
+                <PasswordToggleIcon
+                  showPass={showPass}
+                  setShowPass={setShowPass}
+                />
+              </div>
+              {errors.password && <Error>{errors.password.message}</Error>}
+            </div>
+          </div>
+
+          <div className="pt-4">
+            <Button
+              disabled={logging}
+              type="submit"
+              className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
+            >
+              {logging ? "please wait..." : "Login"}
+            </Button>
+          </div>
+          <div class="relative flex items-center justify-center">
+            <div class="absolute inset-0 mt-4 flex items-center">
+              <div class="w-full border-t border-gray-700"></div>
+            </div>
+          </div>
+        </form>
+        <p class="mt-4 pt-3 text-center text-sm text-gray-400">
+          if You have don't An Account?
+          <Button
+            to="/signup"
+            className="text-yellow-500 hover:text-yellow-400"
+          >
+            signUp
+          </Button>
+        </p>
+      </div>
+    );
+
+  if (type === "signUp")
+    return (
+      <div className="mx-auto w-3xl max-w-md space-y-6 rounded-xl bg-white p-6 shadow-lg">
+        <form onSubmit={handleSubmit(handleForm, onError)}>
+          <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
+            Sign Up
+          </h2>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label
+                htmlFor="name"
+                className="flex items-center text-sm font-medium text-gray-700"
+              >
+                <HiUser className="mr-2 h-5 w-5" />
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                disabled={signingup}
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                placeholder="Enter your full name"
+                {...register("name", {
+                  required: "Please enter your full name",
+                })}
+              />
+              {errors.name && <Error>{errors.name.message}</Error>}
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="flex items-center text-sm font-medium text-gray-700"
+              >
+                <HiMail className="mr-2 h-5 w-5" />
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                disabled={signingup}
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                placeholder="Enter your email"
+                {...register("email", {
+                  required: "Please enter your email address",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Please enter a valid email address",
+                  },
+                })}
+              />
+              {errors.email && <Error>{errors.email.message}</Error>}
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="flex items-center text-sm font-medium text-gray-700"
+              >
+                <HiLockClosed className="mr-2 h-5 w-5" />
+                Password
+              </label>
+              <input
+                type="password"
                 id="password"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-12 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-                placeholder="Enter your password"
+                disabled={signingup}
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                placeholder="Create a password"
                 {...register("password", {
-                  required: "Please enter your password",
+                  required: "Please enter a password",
                   minLength: {
                     value: 8,
                     message: "Password must be at least 8 characters",
                   },
                 })}
               />
-              <PasswordToggleIcon
-                showPass={showPass}
-                setShowPass={setShowPass}
-              />
+              {errors.password && <Error>{errors.password.message}</Error>}
             </div>
-            {errors.password && <Error>{errors.password.message}</Error>}
-          </div>
-        </div>
 
-        <div className="pt-4">
+            <div className="space-y-2">
+              <label
+                htmlFor="confirmPassword"
+                className="flex items-center text-sm font-medium text-gray-700"
+              >
+                <HiLockClosed className="mr-2 h-5 w-5" />
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                disabled={signingup}
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                placeholder="Confirm your password"
+                {...register("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (value) =>
+                    value === getValues().password || "Passwords do not match",
+                })}
+              />
+              {errors.confirmPassword && (
+                <Error>{errors.confirmPassword.message}</Error>
+              )}
+            </div>
+          </div>
+
+          <div className="pt-4">
+            <Button
+              type="submit"
+              disabled={signingup}
+              className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
+            >
+              {signingup ? "Signing up, pls wait" : "Create Account"}
+            </Button>
+          </div>
+          <div class="relative flex items-center justify-center">
+            <div class="absolute inset-0 mt-4 flex items-center">
+              <div class="w-full border-t border-gray-700"></div>
+            </div>
+          </div>
+        </form>
+        <p class="mt-4 pt-3 text-center text-sm text-gray-400">
+          if You have An Account?
           <Button
-            disabled={logging}
-            type="submit"
-            className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
+            to="/login"
+            className="text-yellow-500 hover:text-yellow-400"
           >
-            {logging ? "please wait..." : "Login"}
+            login
           </Button>
-        </div>
-      </form>
-    );
-
-  if (type === "signUp")
-    return (
-      <form
-        onSubmit={handleSubmit(handleForm, onError)}
-        className="mx-auto max-w-md space-y-6 rounded-xl bg-white p-6 shadow-lg"
-      >
-        <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
-          Sign Up
-        </h2>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <label
-              htmlFor="name"
-              className="flex items-center text-sm font-medium text-gray-700"
-            >
-              <HiUser className="mr-2 h-5 w-5" />
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              disabled={signingup}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Enter your full name"
-              {...register("name", {
-                required: "Please enter your full name",
-              })}
-            />
-            {errors.name && <Error>{errors.name.message}</Error>}
-          </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="email"
-              className="flex items-center text-sm font-medium text-gray-700"
-            >
-              <HiMail className="mr-2 h-5 w-5" />
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              disabled={signingup}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Enter your email"
-              {...register("email", {
-                required: "Please enter your email address",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Please enter a valid email address",
-                },
-              })}
-            />
-            {errors.email && <Error>{errors.email.message}</Error>}
-          </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="flex items-center text-sm font-medium text-gray-700"
-            >
-              <HiLockClosed className="mr-2 h-5 w-5" />
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              disabled={signingup}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Create a password"
-              {...register("password", {
-                required: "Please enter a password",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters",
-                },
-              })}
-            />
-            {errors.password && <Error>{errors.password.message}</Error>}
-          </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="confirmPassword"
-              className="flex items-center text-sm font-medium text-gray-700"
-            >
-              <HiLockClosed className="mr-2 h-5 w-5" />
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              disabled={signingup}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Confirm your password"
-              {...register("confirmPassword", {
-                required: "Please confirm your password",
-                validate: (value) =>
-                  value === getValues().password || "Passwords do not match",
-              })}
-            />
-            {errors.confirmPassword && (
-              <Error>{errors.confirmPassword.message}</Error>
-            )}
-          </div>
-        </div>
-
-        <div className="pt-4">
-          <Button
-            type="submit"
-            disabled={signingup}
-            className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
-          >
-            {signingup ? "Signing up, pls wait" : "Create Account"}
-          </Button>
-        </div>
-      </form>
+        </p>
+      </div>
     );
 }
 
