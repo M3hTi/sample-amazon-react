@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import ShoppingCart from "../components/ShoppingCart";
+import ShoppingCart from "../features/carts/ShoppingCart";
 
 const OverlayContext = createContext();
 

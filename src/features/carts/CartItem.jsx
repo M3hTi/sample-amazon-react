@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
 import toast from "react-hot-toast";
 
-import { updateStockById } from "../services/updateStockById";
-import Button from "../ui/Button";
+import { updateStockById } from "../../services/updateStockById";
+import Button from "../../ui/Button";
 
 function CartItem({ item }) {
   console.log(item);

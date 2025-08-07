@@ -1,4 +1,4 @@
-import Preview from "../components/Preview";
+import Preview from "../features/products/Preview";
 
 function PreviewPage() {
   return <Preview />;

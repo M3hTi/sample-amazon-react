@@ -1,5 +1,5 @@
-import Form from "../ui/Form";
-import GoHome from "../ui/GoHome";
+import Form from "./Form";
+import GoHome from "./GoHome";
 
 function ContactUs() {
   return (

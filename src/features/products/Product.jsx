@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
 
-// import toast from "react-hot-toast";
-import { useIsInCart } from "../hooks/useIsInCart";
 // import { updateStockById } from "../services/updateStockById";
-import Button from "../ui/Button";
-import Error from "../ui/Error";
-import { addToCart } from "../utils/helpers";
+import Button from "../../ui/Button";
+import Error from "../../ui/Error";
+import { addToCart } from "../../utils/helpers";
+// import toast from "react-hot-toast";
+import { useIsInCart } from "../carts/useIsInCart";
 
 function Product({ product }) {
   console.log(product);

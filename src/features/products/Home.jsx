@@ -1,23 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { Show } from "react-smart-conditional";
 
-import { usePaginate } from "../context/PaginateContext";
-import { fetchProducts } from "../services/fetchProducts";
-import Error from "../ui/Error";
-import Pagination from "../ui/Pagination";
-import Spinner from "../ui/Spinner";
-import Product from "./Product";
+import { usePaginate } from "../../context/PaginateContext.jsx";
+import Error from "../../ui/Error.jsx";
+import Pagination from "../../ui/Pagination.jsx";
+import Spinner from "../../ui/Spinner.jsx";
+import Product from "./Product.jsx";
+import { useProducts } from "./useProducts.js";
 
 function Home() {
   const { currentPage, setCurrentPage, startIndex, endIndex } = usePaginate();
 
   const [selectedcategories, setSelectedCategories] = useState([]);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
-  });
+  const { data, isLoading, isError } = useProducts();
   // Get unique categories from products
   const categories = Array.isArray(data)
     ? [...new Set(data.map((product) => product.category))]
@@ -58,9 +54,9 @@ function Home() {
   }, [currentPage, selectedcategories, startIndex, endIndex, products]);
 
   // Reset pagination to first page whenever categories filter changes
-  useEffect(()=> {
-    setCurrentPage(1)
-  }, [selectedcategories, setCurrentPage])
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedcategories, setCurrentPage]);
 
   return (
     <div className="flex w-full gap-8 pt-10">

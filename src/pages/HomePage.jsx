@@ -1,5 +1,5 @@
-import Carousel from "../components/Carousel";
-import Home from "../components/Home";
+import Carousel from "../ui/Carousel";
+import Home from "../features/products/Home";
 import PaginateProvider from "../context/PaginateContext";
 function HomePage() {
   return (

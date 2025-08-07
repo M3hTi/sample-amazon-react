@@ -4,11 +4,19 @@ import { useForm } from "react-hook-form";
 import { HiChat, HiClipboardList, HiLockClosed, HiMail } from "react-icons/hi";
 import { HiUser } from "react-icons/hi2";
 
+import { useLogin } from "../features/authentication/useLogin";
+import { useSignup } from "../features/authentication/useSignup";
 import Button from "../ui/Button";
 import Error from "../ui/Error";
+import PasswordToggleIcon from "./PasswordToggleIcon";
 
 function Form({ type }) {
   const [sendingForm, setSendingForm] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+
+  const { login, logging } = useLogin();
+  const { signupFn, signingup } = useSignup();
+
   const form = useRef();
   const {
     register,
@@ -26,6 +34,7 @@ function Form({ type }) {
 
   function handleForm(data) {
     console.log(data);
+    const { email, password } = data;
     switch (type) {
       case "contactUs":
         emailjs
@@ -51,10 +60,29 @@ function Form({ type }) {
         console.log("contactUs");
         break;
       case "login":
-        console.log("Login");
+        // console.log("Login");
+        // const { email, password } = data;
+        login(
+          { email, password },
+          {
+            onSettled: () => {
+              reset();
+            },
+          },
+        );
         break;
       case "signUp":
         console.log("signUp!");
+        // console.log(data);
+        // const { email, password } = data;
+        signupFn(
+          { email, password },
+          {
+            onSettled: () => {
+              reset();
+            },
+          },
+        );
         break;
       default:
         console.log(data);
@@ -104,7 +132,7 @@ function Form({ type }) {
               htmlFor="email"
               className="flex items-center text-sm font-medium text-yellow-400"
             >
-              <HiMail className="mr-2 h-5 w-5 " />
+              <HiMail className="mr-2 h-5 w-5" />
               Email
             </label>
             <input
@@ -130,7 +158,7 @@ function Form({ type }) {
               htmlFor="subject"
               className="flex items-center text-sm font-medium text-yellow-400"
             >
-              <HiClipboardList className="mr-2 h-5 w-5 " />
+              <HiClipboardList className="mr-2 h-5 w-5" />
               Subject
             </label>
             <input
@@ -156,7 +184,7 @@ function Form({ type }) {
               htmlFor="message"
               className="flex items-center text-sm font-medium text-yellow-400"
             >
-              <HiChat className="mr-2 h-5 w-5 " />
+              <HiChat className="mr-2 h-5 w-5" />
               Message
             </label>
             <textarea
@@ -194,7 +222,7 @@ function Form({ type }) {
     return (
       <form
         onSubmit={handleSubmit(handleForm, onError)}
-        className="mx-auto max-w-md space-y-6 rounded-xl bg-white p-6 shadow-lg"
+        className="mx-auto w-3xl max-w-md space-y-6 rounded-xl bg-white p-6 shadow-lg"
       >
         <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
           Login
@@ -205,10 +233,11 @@ function Form({ type }) {
               htmlFor="email"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiMail className="mr-2 h-5 w-5 " />
+              <HiMail className="mr-2 h-5 w-5" />
               Email
             </label>
             <input
+              disabled={logging}
               type="email"
               id="email"
               className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
@@ -222,39 +251,46 @@ function Form({ type }) {
               })}
             />
             {errors.email && <Error>{errors.email.message}</Error>}
-          </div>
-
+          </div>{" "}
           <div className="space-y-2">
             <label
               htmlFor="password"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiLockClosed className="mr-2 h-5 w-5 " />
+              <HiLockClosed className="mr-2 h-5 w-5" />
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Enter your password"
-              {...register("password", {
-                required: "Please enter your password",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters",
-                },
-              })}
-            />
+            <div className="relative">
+              <input
+                disabled={logging}
+                type={showPass ? "text" : "password"}
+                id="password"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-12 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                placeholder="Enter your password"
+                {...register("password", {
+                  required: "Please enter your password",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                })}
+              />
+              <PasswordToggleIcon
+                showPass={showPass}
+                setShowPass={setShowPass}
+              />
+            </div>
             {errors.password && <Error>{errors.password.message}</Error>}
           </div>
         </div>
 
         <div className="pt-4">
           <Button
+            disabled={logging}
             type="submit"
-            className="w-full rounded-lg bg-blue-600 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
+            className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
           >
-            Login
+            {logging ? "please wait..." : "Login"}
           </Button>
         </div>
       </form>
@@ -275,12 +311,13 @@ function Form({ type }) {
               htmlFor="name"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiUser className="mr-2 h-5 w-5 " />
+              <HiUser className="mr-2 h-5 w-5" />
               Full Name
             </label>
             <input
               type="text"
               id="name"
+              disabled={signingup}
               className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
               placeholder="Enter your full name"
               {...register("name", {
@@ -295,12 +332,13 @@ function Form({ type }) {
               htmlFor="email"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiMail className="mr-2 h-5 w-5 " />
+              <HiMail className="mr-2 h-5 w-5" />
               Email
             </label>
             <input
               type="email"
               id="email"
+              disabled={signingup}
               className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
               placeholder="Enter your email"
               {...register("email", {
@@ -319,12 +357,13 @@ function Form({ type }) {
               htmlFor="password"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiLockClosed className="mr-2 h-5 w-5 " />
+              <HiLockClosed className="mr-2 h-5 w-5" />
               Password
             </label>
             <input
               type="password"
               id="password"
+              disabled={signingup}
               className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
               placeholder="Create a password"
               {...register("password", {
@@ -343,18 +382,19 @@ function Form({ type }) {
               htmlFor="confirmPassword"
               className="flex items-center text-sm font-medium text-gray-700"
             >
-              <HiLockClosed className="mr-2 h-5 w-5 " />
+              <HiLockClosed className="mr-2 h-5 w-5" />
               Confirm Password
             </label>
             <input
               type="password"
               id="confirmPassword"
+              disabled={signingup}
               className="w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-150 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
               placeholder="Confirm your password"
               {...register("confirmPassword", {
                 required: "Please confirm your password",
                 validate: (value) =>
-                  value === getValues("password") || "Passwords do not match",
+                  value === getValues().password || "Passwords do not match",
               })}
             />
             {errors.confirmPassword && (
@@ -366,9 +406,10 @@ function Form({ type }) {
         <div className="pt-4">
           <Button
             type="submit"
-            className="w-full rounded-lg bg-blue-600 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
+            disabled={signingup}
+            className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 py-4 text-lg font-semibold text-white transition duration-150 hover:bg-blue-700"
           >
-            Create Account
+            {signingup ? "Signing up, pls wait" : "Create Account"}
           </Button>
         </div>
       </form>

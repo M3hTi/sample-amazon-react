@@ -4,11 +4,11 @@ import { useLocalStorage } from "react-haiku";
 import { GoDotFill } from "react-icons/go";
 import { Link, useParams } from "react-router-dom";
 
-import { useIsInCart } from "../hooks/useIsInCart";
-import { fetchProductById } from "../services/fetchProductById";
-import Button from "../ui/Button";
-import Spinner from "../ui/Spinner";
-import { addToCart, formatCurrency } from "../utils/helpers";
+import { fetchProductById } from "../../services/fetchProductById";
+import Button from "../../ui/Button";
+import Spinner from "../../ui/Spinner";
+import { addToCart, formatCurrency } from "../../utils/helpers";
+import { useIsInCart } from "../carts/useIsInCart";
 
 function Preview() {
   const { id } = useParams();

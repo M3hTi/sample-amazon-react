@@ -1,6 +1,6 @@
 import { useLocalStorage } from "react-haiku";
 
-import { formatCurrency } from "../utils/helpers";
+import { formatCurrency } from "../../utils/helpers";
 import CartItem from "./CartItem";
 
 function CartItems() {
