@@ -7,7 +7,7 @@ import { signup } from "../../services/apiAuthentication";
 export function useSignup() {
   const navigate = useNavigate();
   const { mutate: signupFn, isPending: signingup } = useMutation({
-    mutationFn: ({ email, password }) => signup({ email, password }),
+    mutationFn: ({ email, password, name }) => signup({ email, password, name }),
 
     onSuccess: () => {
       toast.success("You Successfully siging up");

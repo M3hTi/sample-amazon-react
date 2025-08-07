@@ -34,7 +34,7 @@ function Form({ type }) {
 
   function handleForm(data) {
     console.log(data);
-    const { email, password } = data;
+    const { email, password, name } = data;
     switch (type) {
       case "contactUs":
         emailjs
@@ -76,7 +76,7 @@ function Form({ type }) {
         // console.log(data);
         // const { email, password } = data;
         signupFn(
-          { email, password },
+          { email, password, name },
           {
             onSettled: () => {
               reset();
