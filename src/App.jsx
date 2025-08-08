@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Account from "./features/dashboard/Account";
+import Comments from "./features/dashboard/Comments";
 import DashboardLayout from "./features/dashboard/DashboardLayout";
 import FAQ from "./pages/FAQ";
 import HomePage from "./pages/HomePage";
@@ -28,6 +29,7 @@ function App() {
               <Route path="faq" element={<FAQ />} />
               <Route path="dashboard" element={<DashboardLayout />}>
                 <Route path="account/edit" element={<Account />} />
+                <Route path="account/comments" element={<Comments />} />
               </Route>
             </Route>
             <Route path="contactus" element={<ContactUs />} />
