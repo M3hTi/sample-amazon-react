@@ -1,14 +1,15 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useLocalStorage } from "react-haiku";
 import { GoDotFill } from "react-icons/go";
 import { Link, useParams } from "react-router-dom";
 
-import { fetchProductById } from "../../services/fetchProductById";
 import Button from "../../ui/Button";
+import Error from "../../ui/Error";
 import Spinner from "../../ui/Spinner";
 import { addToCart, formatCurrency } from "../../utils/helpers";
+import { useUser } from "../authentication/useUser";
 import { useIsInCart } from "../carts/useIsInCart";
+import { useProducts } from "./useProducts";
 
 function Preview() {
   const { id } = useParams();
@@ -19,17 +20,16 @@ function Preview() {
 
   const { isAlreadyInYourCart } = useIsInCart(shoppingCart, Number(id));
 
-  // Get the query client instance
-  const queryClient = useQueryClient();
+  const { user } = useUser();
 
-  const { data: product, isLoading } = useQuery({
-    queryKey: ["product", id],
-    queryFn: () => fetchProductById(id),
-    initialData: () => {
-      const cachedProducts = queryClient.getQueryData(["products"]);
-      return cachedProducts?.find((product) => product.id === id);
-    },
-  });
+  const { data, isLoading, isError } = useProducts(id);
+
+  console.log(data);
+
+  const [product] = data || [];
+  const { name, image, description, price } = product || {};
+  const descriptionArr = description?.split("\n");
+  console.log(descriptionArr);
 
   function handleAddToCart() {
     const newProduct = addToCart(product, quantity);
@@ -42,19 +42,10 @@ function Preview() {
   }
 
   // Only show "not found" if we're done loading AND there's no product
-  if (!isLoading && !product) {
-    return <p>Product not found</p>;
+  if (!isLoading && isError) {
+    return <Error>🤨 something went wrong!!</Error>;
   }
 
-  // If we're still loading or product doesn't exist yet, show spinner
-  if (!product) {
-    return <Spinner />;
-  }
-
-  // Safe to destructure now that we know product exists
-  const { name, image, description, price } = product;
-  const descriptionArr = description.split("\n");
-  console.log(descriptionArr);
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2">
@@ -96,7 +87,7 @@ function Preview() {
           </div>
 
           <div className="prose max-w-none">
-            {descriptionArr.map((description) => (
+            {descriptionArr?.map((description) => (
               <p className="text-gray-600">
                 <span className="inline-block">
                   <GoDotFill />
@@ -138,6 +129,14 @@ function Preview() {
           )}
         </div>
       </div>
+
+      {Object.keys(user || {}).length > 0 ? (
+        <div>1223343546567867879</div>
+      ) : (
+        <div>
+          <p>Please sign in to your account before posting your comment</p>
+        </div>
+      )}
     </div>
   );
 }

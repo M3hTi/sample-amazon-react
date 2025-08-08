@@ -1,8 +1,14 @@
 import supabase from "./supaBaseClient";
 
-export async function fetchProducts() {
+export async function fetchProducts(id) {
   try {
-    let { data: products, error } = await supabase.from("products").select("*");
+    let query = supabase.from("products").select("*");
+
+    if (id) {
+      query = query.eq("id", id);
+    }
+
+    let { data: products, error } = await query;
     if (error)
       throw new Error(
         `we couldn't fect products, eror message: ${error.message}`,
