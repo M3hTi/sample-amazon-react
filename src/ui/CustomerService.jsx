@@ -14,7 +14,7 @@ function CustomerServie() {
           </Link>
         </li>
         <li>
-          <Link className="text-gray-300 transition-colors hover:text-white">
+          <Link to="/returns" className="text-gray-300 transition-colors hover:text-white">
             Returns
           </Link>
         </li>
