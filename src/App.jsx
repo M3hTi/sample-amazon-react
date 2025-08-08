@@ -10,6 +10,7 @@ import FAQ from "./pages/FAQ";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import PreviewPage from "./pages/PreviewPage";
+import ReturnPolicy from "./pages/ReturnPolicy";
 import Signup from "./pages/Signup";
 import AppLayout from "./ui/AppLayout";
 import ContactUs from "./ui/ContactUs";
@@ -28,6 +29,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path=":id" element={<PreviewPage />} />
               <Route path="faq" element={<FAQ />} />
+              <Route path="returns" element={<ReturnPolicy />} />
               <Route
                 path="dashboard"
                 element={
