@@ -13,6 +13,7 @@ import PreviewPage from "./pages/PreviewPage";
 import Signup from "./pages/Signup";
 import AppLayout from "./ui/AppLayout";
 import ContactUs from "./ui/ContactUs";
+import ProtectRoute from "./ui/ProtectRoute";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,14 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path=":id" element={<PreviewPage />} />
               <Route path="faq" element={<FAQ />} />
-              <Route path="dashboard" element={<DashboardLayout />}>
+              <Route
+                path="dashboard"
+                element={
+                  <ProtectRoute>
+                    <DashboardLayout />
+                  </ProtectRoute>
+                }
+              >
                 <Route path="account/edit" element={<Account />} />
                 <Route path="account/comments" element={<Comments />} />
               </Route>

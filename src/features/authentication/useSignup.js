@@ -11,7 +11,7 @@ export function useSignup() {
 
     onSuccess: () => {
       toast.success("You Successfully siging up");
-      navigate("/account", { replace: true });
+      navigate("/dashboard/account/edit", { replace: true });
     },
 
     onError: (error) => {
