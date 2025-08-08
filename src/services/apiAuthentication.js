@@ -43,6 +43,19 @@ export async function login({ email, password }) {
   }
 }
 
+export async function logout() {
+  try {
+    let { error } = await supabase.auth.signOut();
+    if (error)
+      throw new Error(
+        `You couldn't sign out at this point, pls try again later!`,
+      );
+  } catch (error) {
+    console.log(error.message);
+    throw error;
+  }
+}
+
 export async function getCurrentUser() {
   try {
     const { data: session, error: errorSession } =
@@ -53,7 +66,7 @@ export async function getCurrentUser() {
         `We can't retrieve session!!, error: ${errorSession.message}`,
       );
 
-    if (!session.session) throw new Error("we don't have session yet!");
+    if (!session.session) return null;
 
     const {
       data: { user },

@@ -53,7 +53,7 @@ function Header() {
               </Link>
             )}
             {!isLoading && isAuthenticated && (
-              <Button to="account">{user?.user_metadata?.fullName}</Button>
+              <Button to="dashboard/account/edit">{user?.user_metadata?.fullName}</Button>
             )}
 
             <Button
