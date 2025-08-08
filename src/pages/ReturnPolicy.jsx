@@ -28,7 +28,7 @@ function ReturnPolicy() {
       </h3>
       <p className="mb-4 text-gray-700">
         To initiate ar eturn, please visit my
-        <a href="https://www.instagram.com/mehdi_n_kh78/" className="text-yellow-400 px-1">instagram</a>
+        <a href="https://www.instagram.com/them3hti/" className="text-yellow-400 px-1">instagram</a>
         account and direct me
       </p>
 
