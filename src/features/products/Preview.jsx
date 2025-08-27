@@ -4,11 +4,14 @@ import { GoDotFill } from "react-icons/go";
 import { Link, useParams } from "react-router-dom";
 
 import Button from "../../ui/Button";
+import CommentForm from "../../ui/commentForm";
 import Error from "../../ui/Error";
+import ShowComments from "../../ui/ShowComments";
 import Spinner from "../../ui/Spinner";
 import { addToCart, formatCurrency } from "../../utils/helpers";
 import { useUser } from "../authentication/useUser";
 import { useIsInCart } from "../carts/useIsInCart";
+import { useComments } from "./useComments";
 import { useProducts } from "./useProducts";
 
 function Preview() {
@@ -27,9 +30,13 @@ function Preview() {
   console.log(data);
 
   const [product] = data || [];
-  const { name, image, description, price } = product || {};
+  const { name, image, description, price, id: productId } = product || {};
   const descriptionArr = description?.split("\n");
   console.log(descriptionArr);
+
+  const { comments } = useComments(productId);
+
+  console.log(comments);
 
   function handleAddToCart() {
     const newProduct = addToCart(product, quantity);
@@ -130,8 +137,10 @@ function Preview() {
         </div>
       </div>
 
+      {comments?.length > 0 && <ShowComments productId={productId} />}
+
       {Object.keys(user || {}).length > 0 ? (
-        <div>1223343546567867879</div>
+        <CommentForm productId={productId} />
       ) : (
         <div className="mx-auto mt-8 max-w-2xl rounded-lg bg-white p-6 text-center shadow-md">
           <p className="text-gray-700">
