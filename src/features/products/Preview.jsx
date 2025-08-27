@@ -4,6 +4,7 @@ import { GoDotFill } from "react-icons/go";
 import { Link, useParams } from "react-router-dom";
 
 import Button from "../../ui/Button";
+import CommentForm from "../../ui/commentForm";
 import Error from "../../ui/Error";
 import Spinner from "../../ui/Spinner";
 import { addToCart, formatCurrency } from "../../utils/helpers";
@@ -27,7 +28,7 @@ function Preview() {
   console.log(data);
 
   const [product] = data || [];
-  const { name, image, description, price } = product || {};
+  const { name, image, description, price, id: productId } = product || {};
   const descriptionArr = description?.split("\n");
   console.log(descriptionArr);
 
@@ -131,7 +132,7 @@ function Preview() {
       </div>
 
       {Object.keys(user || {}).length > 0 ? (
-        <div>1223343546567867879</div>
+        <CommentForm productId={productId} />
       ) : (
         <div>
           <p>Please sign in to your account before posting your comment</p>
