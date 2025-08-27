@@ -18,3 +18,21 @@ export async function createComment(newComment) {
     throw error;
   }
 }
+
+export async function readComments(productId) {
+  try {
+    let { data: comments, error } = await supabase
+      .from("comments")
+      .select("*")
+      .eq("product_id", productId);
+
+    if (error)
+      throw new Error(
+        `we couldn't fect comments at this point, Please try again later!`,
+      );
+
+    return comments;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
