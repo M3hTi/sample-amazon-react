@@ -4,7 +4,7 @@ import { GoDotFill } from "react-icons/go";
 import { Link, useParams } from "react-router-dom";
 
 import Button from "../../ui/Button";
-import CommentForm from "../../ui/commentForm";
+import CommentForm from "../../ui/CommentForm";
 import Error from "../../ui/Error";
 import ShowComments from "../../ui/ShowComments";
 import Spinner from "../../ui/Spinner";
