@@ -19,20 +19,46 @@ export async function createComment(newComment) {
   }
 }
 
-export async function readComments(productId) {
+export async function readComments(productId, userId) {
   try {
-    let { data: comments, error } = await supabase
+    let query = supabase.from("comments").select("*");
+
+    if (productId) {
+      query = query.eq("product_id", productId);
+    }
+    if (userId) {
+      query = query.eq("user_id", userId);
+    }
+
+    let { data: comments, error } = await query;
+
+    if (error) {
+      throw new Error(
+        `we couldn't fetch comments at this point, Please try again later!`,
+      );
+    }
+
+    return comments || [];
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export async function deleteComment(commentID) {
+  try {
+    const { error } = await supabase
       .from("comments")
-      .select("*")
-      .eq("product_id", productId);
+      .delete()
+      .eq("id", commentID)
+      .single();
 
     if (error)
       throw new Error(
-        `we couldn't fect comments at this point, Please try again later!`,
+        `You couldn't delete this comment at this moment, pls try again later!`,
       );
-
-    return comments;
   } catch (error) {
     console.log(error.message);
+    throw error;
   }
 }

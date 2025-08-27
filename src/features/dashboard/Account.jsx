@@ -1,12 +1,8 @@
-import Button from "../../ui/Button";
 import Error from "../../ui/Error";
-import MiniLoading from "../../ui/MiniLoading";
 import Spinner from "../../ui/Spinner";
-import { useLogout } from "../authentication/useLogout";
 import { useUser } from "../authentication/useUser";
 
 function Account() {
-  const { logout, loggingOut } = useLogout();
   const { user, isLoading, isError, error } = useUser();
   if (isLoading) {
     return <Spinner />;
@@ -24,9 +20,6 @@ function Account() {
         <p className="text-gray-600">
           Select an option from the sidebar to get started
         </p>
-        <Button className="cursor-pointer" onClick={() => logout()}>
-          {loggingOut ? <MiniLoading /> : "logout"}
-        </Button>
       </div>
     </div>
   );
