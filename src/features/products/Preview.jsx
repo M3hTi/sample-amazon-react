@@ -133,8 +133,17 @@ function Preview() {
       {Object.keys(user || {}).length > 0 ? (
         <div>1223343546567867879</div>
       ) : (
-        <div>
-          <p>Please sign in to your account before posting your comment</p>
+        <div className="mx-auto mt-8 max-w-2xl rounded-lg bg-white p-6 text-center shadow-md">
+          <p className="text-gray-700">
+            Please{" "}
+            <Link
+              to="/login"
+              className="font-semibold text-amber-600 underline transition-colors hover:text-amber-700"
+            >
+              sign in
+            </Link>{" "}
+            to share your thoughts about this product
+          </p>
         </div>
       )}
     </div>
